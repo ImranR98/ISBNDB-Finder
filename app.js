@@ -2,7 +2,7 @@ const fs = require('fs')
 
 const config = require('./lib/config').config
 const helpers = require('./lib/helpers')
-const ISBNDB = require('./lib/ISBNDB')
+const ISBNDB = require('./lib/ISBN')
 
 const verbose = true
 
@@ -23,7 +23,9 @@ const app = async () => {
         if (verbose) console.log((i + 1) + ' of ' + ISBNs.length + '...')
         try {
             results.push(await ISBNDB.getISBNDBBookDetails(APIKey, ISBNs[i], verbose))
+            if (verbose) console.log('Succeeded.')
         } catch (err) {
+            if (verbose) console.log('Failed.')
             errors.push({ ISBN: ISBNs[i], error: err })
         }
         await helpers.sleep(delay)
