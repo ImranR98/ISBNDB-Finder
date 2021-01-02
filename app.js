@@ -1,6 +1,10 @@
+const fs = require('fs')
+
 const config = require('./lib/config').config
 const helpers = require('./lib/helpers')
 const ISBNDB = require('./lib/ISBNDB')
+
+const verbose = true
 
 // TODO: Use OUTPUT_FILE, DESIRED_TAGS, and IMAGE_DIR
 
@@ -16,19 +20,18 @@ const app = async () => {
     let errors = []
 
     for (let i = 0; i < ISBNs.length; i++) {
+        if (verbose) console.log((i + 1) + ' of ' + ISBNs.length + '...')
         try {
-            results.push(await ISBNDB.getISBNDBBookDetails(APIKey, ISBNs[i]))
+            results.push(await ISBNDB.getISBNDBBookDetails(APIKey, ISBNs[i], verbose))
         } catch (err) {
             errors.push({ ISBN: ISBNs[i], error: err })
         }
         await helpers.sleep(delay)
     }
 
-    console.log('Done.')
-    console.log('\n\n\nResults:')
-    console.log(results)
-    console.log('\n\n\nErrors:')
-    console.log(errors)
+    console.log('Done. Found ' + results.length + ' results. Encountered ' + errors.length + ' errors.')
+
+    fs.writeFileSync(config.OUTPUT_FILE, JSON.stringify({ results, errors }, null, '\t'))
 }
 
 // Run App
