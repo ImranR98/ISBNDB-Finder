@@ -45,21 +45,9 @@ const app = async () => {
             }
             detailsSaved++
         } catch (err) {
-            if (typeof err != 'string') {
-                if (typeof err?.data == 'string') {
-                    try {
-                        err = JSON.parse(err.data)?.errorMessage
-                    } catch (error) {
-
-                    }
-                }
-            }
-            if (typeof err != 'string') {
-                err = JSON.stringify(err)
-            }
-            err = err.split('\n').join('  ')
             oneLineLog('')
-            console.error(`${standardLogPrefix(i, ISBNs.length)} Error for '${ISBNs[i]}': ${err}.`)
+            console.error(`${standardLogPrefix(i, ISBNs.length)} Error for '${ISBNs[i]}':`)
+            console.error(err)
         }
         await sleep(delay)
     }
