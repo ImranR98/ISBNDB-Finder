@@ -5,22 +5,20 @@ export function sleep(ms: number) {
     new Promise<void>((resolve, reject) => { setTimeout(() => { resolve() }, ms) })
 }
 
-export async function httpGet(options: https.RequestOptions) {
-    let result: { data: any, status: number } = await new Promise((resolve, reject) => {
+export async function httpGet(options: https.RequestOptions): Promise<any> {
+    return new Promise((resolve, reject) => {
         https.get(options, (resp) => {
-            let data = ''
+            let data: string = ''
             resp.on('data', (chunk) => {
                 data += chunk
             })
             resp.on('end', () => {
-                resolve({ data, status: resp.statusCode || -1 })
+                resolve(JSON.parse(data))
             })
         }).on("error", (err) => {
             reject(err)
         })
     })
-    if (result.status != 200) throw result
-    else return result.data
 }
 
 export function objectToCSV(object: any, attributes: string[]) {

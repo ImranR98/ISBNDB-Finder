@@ -47,5 +47,5 @@ export async function getISBNDBBookDetails(APIKey: string, ISBN: string): Promis
             'Authorization': APIKey,
         }
     }
-    return JSON.parse((await httpGet(options))).book
+    return (await httpGet(options)).book
 }
