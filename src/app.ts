@@ -46,8 +46,12 @@ const app = async () => {
             detailsSaved++
         } catch (err) {
             oneLineLog('')
-            console.error(`${standardLogPrefix(i, ISBNs.length)} \x1b[31mError for '${ISBNs[i]}':\x1b[00m`)
-            console.error(err)
+            if (typeof err?.errorMessage == 'string')
+                console.error(`${standardLogPrefix(i, ISBNs.length)} \x1b[31mError for '${ISBNs[i]}': ${err}.\x1b[00m`)
+            else {
+                console.error(`${standardLogPrefix(i, ISBNs.length)} \x1b[31mError for '${ISBNs[i]}':\x1b[00m`)
+                console.error(err)
+            }
         }
         await sleep(delay)
     }
