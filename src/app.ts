@@ -21,7 +21,7 @@ const app = async () => {
 
     if (verbose) oneLineLog(`${nowString()}: Preparing directories...`)
     mkdirIfNeeded(outputDir)
-    mkdirIfNeeded(imageDir)
+    if (imageDir) mkdirIfNeeded(imageDir)
 
     if (verbose) oneLineLog(`${nowString()}: Preparing output file...`)
     fs.writeFileSync(outputDir + '/results.csv', desiredTags.join(','))

@@ -26,7 +26,7 @@ export const config = {
         return Number.parseInt(process.env.REQ_DELAY_MS)
     },
     get IMAGE_DIR() {
-        if (process.env.IMAGE_DIR == undefined) throw 'process.env.IMAGE_DIR is undefined'
+        if (process.env.IMAGE_DIR == undefined) return null
         return process.env.IMAGE_DIR.trim()
     }
 }
