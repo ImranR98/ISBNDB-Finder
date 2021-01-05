@@ -47,7 +47,7 @@ const app = async () => {
         } catch (err) {
             oneLineLog('')
             if (typeof err?.errorMessage == 'string')
-                console.error(`${standardLogPrefix(i, ISBNs.length)} \x1b[31mError for '${ISBNs[i]}': ${err}.\x1b[00m`)
+                console.error(`${standardLogPrefix(i, ISBNs.length)} \x1b[31mError for '${ISBNs[i]}': ${err.errorMessage}.\x1b[00m`)
             else {
                 console.error(`${standardLogPrefix(i, ISBNs.length)} \x1b[31mError for '${ISBNs[i]}':\x1b[00m`)
                 console.error(err)
