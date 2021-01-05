@@ -41,12 +41,12 @@ const app = async () => {
                 imagesSaved++
             } else if (imageDir) {
                 oneLineLog('')
-                console.warn(`${standardLogPrefix(i, ISBNs.length)} Image for '${ISBNs[i]}' was not found.`)
+                console.warn(`${standardLogPrefix(i, ISBNs.length)} \x1b[93mImage for '${ISBNs[i]}' was not found.\x1b[00m`)
             }
             detailsSaved++
         } catch (err) {
             oneLineLog('')
-            console.error(`${standardLogPrefix(i, ISBNs.length)} Error for '${ISBNs[i]}':`)
+            console.error(`${standardLogPrefix(i, ISBNs.length)} \x1b[31mError for '${ISBNs[i]}':\x1b[00m`)
             console.error(err)
         }
         await sleep(delay)
@@ -61,5 +61,7 @@ const app = async () => {
 // Run App
 app().catch(err => {
     oneLineLog('')
+    console.error('\x1b[31m')
     console.error(err)
+    console.error('\x1b[00m')
 })
