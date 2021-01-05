@@ -5,7 +5,8 @@
   "main": "dist/app.js",
   "scripts": {
     "start": "node dist/app.js",
-    "build": "tsc"
+    "build": "tsc",
+    "all": "npm run build; npm start"
   },
   "author": "Imran Remtulla",
   "license": "ISC",
