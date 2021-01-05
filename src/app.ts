@@ -42,6 +42,7 @@ const app = async () => {
             oneLineLog('')
             console.warn(`${standardLogPrefix(i, ISBNs.length)} Saved.`)
         } catch (err) {
+            if (err?.data?.errorMessage) err = err.data.errorMessage
             if (typeof err != 'string') err = JSON.stringify(err)
             err = err.split('\n').join('  ')
             oneLineLog('')
