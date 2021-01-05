@@ -26,6 +26,9 @@ const app = async () => {
     if (verbose) oneLineLog(`${nowString()}: Preparing output file...`)
     fs.writeFileSync(outputDir + '/results.csv', desiredTags.join(','))
 
+    let detailsSaved = 0
+    let imagesSaved = 0
+
     for (let i = 0; i < ISBNs.length; i++) {
         try {
             if (verbose) oneLineLog(`${standardLogPrefix(i, ISBNs.length)} Requesting details...`)
@@ -35,25 +38,35 @@ const app = async () => {
             if (imageDir && result.image) {
                 if (verbose) oneLineLog(`${standardLogPrefix(i, ISBNs.length)} Downloading image...`)
                 await saveImageFromURL(result.image, imageDir, ISBNs[i])
+                imagesSaved++
             } else if (imageDir) {
                 oneLineLog('')
                 console.warn(`${standardLogPrefix(i, ISBNs.length)} Image for '${ISBNs[i]}' was not found.`)
             }
-            oneLineLog('')
-            console.warn(`${standardLogPrefix(i, ISBNs.length)} Saved.`)
+            detailsSaved++
         } catch (err) {
-            if (err?.data?.errorMessage) err = err.data.errorMessage
-            if (typeof err != 'string') err = JSON.stringify(err)
+            if (typeof err != 'string') {
+                if (typeof err?.data == 'string') {
+                    try {
+                        err = JSON.parse(err.data)?.errorMessage
+                    } catch (error) {
+
+                    }
+                }
+            }
+            if (typeof err != 'string') {
+                err = JSON.stringify(err)
+            }
             err = err.split('\n').join('  ')
             oneLineLog('')
-            console.error(`${standardLogPrefix(i, ISBNs.length)} Error for '${ISBNs[i]}': ${err}`)
+            console.error(`${standardLogPrefix(i, ISBNs.length)} Error for '${ISBNs[i]}': ${err}.`)
         }
         await sleep(delay)
     }
 
     if (verbose) {
         oneLineLog('')
-        console.log(`${nowString()} Done.`)
+        console.log(`${nowString()}: Finished. Saved ${detailsSaved} ISBN details and ${imagesSaved} images. Check above for any warnings or errors.`)
     }
 }
 
