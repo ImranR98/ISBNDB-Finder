@@ -17,14 +17,14 @@ const app = async () => {
     const delay = config.REQ_DELAY_MS
     const desiredTags = config.DESIRED_TAGS
     const imageDir = config.IMAGE_DIR
-    const outputDir = config.OUTPUT_DIR
+    const outputFile = config.OUTPUT_FILE
 
-    if (verbose) oneLineLog(`${nowString()}: Preparing directories...`)
-    mkdirIfNeeded(outputDir)
+    if (verbose) oneLineLog(`${nowString()}: Preparing file(s) and/or directorie(s)...`)
+    fs.writeFileSync(outputFile, '')
     if (imageDir) mkdirIfNeeded(imageDir)
 
     if (verbose) oneLineLog(`${nowString()}: Preparing output file...`)
-    fs.writeFileSync(outputDir + '/results.csv', desiredTags.join(','))
+    fs.writeFileSync(outputFile, desiredTags.join(','))
 
     let detailsSaved = 0
     let imagesSaved = 0
@@ -34,7 +34,7 @@ const app = async () => {
             if (verbose) oneLineLog(`${standardLogPrefix(i, ISBNs.length)} Requesting details...`)
             let result = await getISBNDBBookDetails(APIKey, ISBNs[i])
             if (verbose) oneLineLog(`${standardLogPrefix(i, ISBNs.length)} Saving details...`)
-            fs.appendFileSync(outputDir + '/results.csv', '\n' + objectToCSV(result, desiredTags))
+            fs.appendFileSync(outputFile, '\n' + objectToCSV(result, desiredTags))
             if (imageDir && result.image) {
                 if (verbose) oneLineLog(`${standardLogPrefix(i, ISBNs.length)} Downloading image...`)
                 await saveImageFromURL(result.image, imageDir, ISBNs[i])

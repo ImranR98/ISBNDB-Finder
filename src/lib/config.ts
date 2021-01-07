@@ -13,9 +13,9 @@ export const config = {
         if (process.env.INPUT_ISBNS == undefined) throw 'process.env.INPUT_ISBNS is undefined'
         return fs.readFileSync(process.env.INPUT_ISBNS.trim()).toString().split('\n').join(',').split(',').map(ISBN => ISBN.trim()).filter(ISBN => ISBN != '')
     },
-    get OUTPUT_DIR() {
-        if (process.env.OUTPUT_DIR == undefined) throw 'process.env.OUTPUT_DIR is undefined'
-        return process.env.OUTPUT_DIR.trim()
+    get OUTPUT_FILE() {
+        if (process.env.OUTPUT_FILE == undefined) throw 'process.env.OUTPUT_FILE is undefined'
+        return process.env.OUTPUT_FILE.trim()
     },
     get DESIRED_TAGS() {
         if (process.env.DESIRED_TAGS == undefined) throw 'process.env.DESIRED_TAGS is undefined'
