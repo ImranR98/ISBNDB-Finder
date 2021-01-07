@@ -26,7 +26,7 @@ export function objectToCSV(object: any, attributes: string[]) {
     attributes.forEach((attribute, index) => {
         if (index != 0) line += ','
         if (object[attribute]) {
-            let value: string = typeof object[attribute] == 'string' ? object[attribute] : JSON.stringify(object[attribute])
+            let value: string = typeof object[attribute] == 'string' ? object[attribute] : Array.isArray(object[attribute]) ? object[attribute].join(', ') : JSON.stringify(object[attribute])
             value = '"' + value.split('"').join('""') + '"'
             value = value.split('\n').join('    ')
             line += value
