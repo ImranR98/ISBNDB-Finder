@@ -29,7 +29,7 @@ export function objectToCSV(object: any, attributes: string[]) {
             let value: string = typeof object[attribute] == 'string' ? object[attribute] : JSON.stringify(object[attribute])
             value = '"' + value.split('"').join('""') + '"'
             value = value.split('\n').join('    ')
-            line += object[attribute]
+            line += value
         }
     })
     return line
